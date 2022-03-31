@@ -52,20 +52,20 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Tên người đặt</th>
-                                    <th scope="col">Tên người nhận</th>
-                                    <th scope="col">Số điện thoại người nhận</th>
-                                    <th scope="col">Địa chỉ</th>
-                                    <th scope="col">Tổng tiền</th>
-                                    <th scope="col">Ngày mua</th>
-                                    <th scope="col">Phương thức thanh toán</th>
-                                    <th scope="col">Action</th>
+                                    <th>#</th>
+                                    <th>Tên người đặt</th>
+                                    <th>Tên người nhận</th>
+                                    <th>Số điện thoại người nhận</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Ngày mua</th>
+                                    <th>Phương thức thanh toán</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <th scope="row">1</th>
+                                    <th>1</th>
                                     <td></td>
                                     <td></td>
                                     <td></td>

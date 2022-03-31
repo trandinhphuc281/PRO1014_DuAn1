@@ -59,16 +59,16 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Parent Id</th>
-                                    <th scope="col">Tên loại hàng</th>
-                                    <th scope="col">Action</th>
+                                    <th>#</th>
+                                    <th>Parent Id</th>
+                                    <th>Tên loại hàng</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($categories as $categorie) : ?>
                                     <tr>
-                                        <th scope="row"><?php echo $categorie["id"] ?></th>
+                                        <th><?php echo $categorie["id"] ?></th>
                                         <td><?php echo $categorie["parent_id"] ?></td>
                                         <td><?php echo $categorie["name"] ?></td>
                                         <td>

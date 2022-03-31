@@ -52,18 +52,18 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Mã đơn hàng</th>
-                                    <th scope="col">Tên sản phẩm</th>
-                                    <th scope="col">Gía sản phẩm</th>
-                                    <th scope="col">Hình ảnh</th>
-                                    <th scope="col">Số lượng mua</th>
-                                    <th scope="col">Action</th>
+                                    <th>#</th>
+                                    <th>Mã đơn hàng</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Gía sản phẩm</th>
+                                    <th>Hình ảnh</th>
+                                    <th>Số lượng mua</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <th scope="row">1</th>
+                                    <th>1</th>
                                     <td></td>
                                     <td></td>
                                     <td></td>

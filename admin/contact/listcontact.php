@@ -59,18 +59,18 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Tên người gửi</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Số điện thoại</th>
-                                    <th scope="col">Nội dung</th>
-                                    <th scope="col">Action</th>
+                                    <th>#</th>
+                                    <th>Tên người gửi</th>
+                                    <th>Email</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Nội dung</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($contacts as $contact) : ?>
                                     <tr>
-                                        <th scope="row"><?php echo $contact["id"] ?></th>
+                                        <th><?php echo $contact["id"] ?></th>
                                         <td><?php echo $contact["name"] ?></td>
                                         <td><?php echo $contact["email"] ?></td>
                                         <td><?php echo $contact["phone"] ?></td>

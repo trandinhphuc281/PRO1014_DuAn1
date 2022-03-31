@@ -52,20 +52,20 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Mã sản phẩm</th>
-                                    <th scope="col">Tên sản phẩm</th>
-                                    <th scope="col">Gía sản phẩm</th>
-                                    <th scope="col">Gía nhập</th>
-                                    <th scope="col">Số lượng bán ra</th>
-                                    <th scope="col">Thành tiền</th>
-                                    <th scope="col">Tổng giá nhập</th>
-                                    <th scope="col">Doanh thu</th>
+                                    <th>#</th>
+                                    <th>Mã sản phẩm</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Gía sản phẩm</th>
+                                    <th>Gía nhập</th>
+                                    <th>Số lượng bán ra</th>
+                                    <th>Thành tiền</th>
+                                    <th>Tổng giá nhập</th>
+                                    <th>Doanh thu</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <th scope="row">1</th>
+                                    <th>1</th>
                                     <td></td>
                                     <td></td>
                                     <td></td>

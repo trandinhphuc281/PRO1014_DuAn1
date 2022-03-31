@@ -52,16 +52,16 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nội dung bình luận</th>
-                                    <th scope="col">Người bình luận</th>
-                                    <th scope="col">Ngày bình luận</th>
-                                    <th scope="col">Action</th>
+                                    <th>#</th>
+                                    <th>Nội dung bình luận</th>
+                                    <th>Người bình luận</th>
+                                    <th>Ngày bình luận</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <th scope="row">1</th>
+                                    <th>1</th>
                                     <td></td>
                                     <td></td>
                                     <td></td>

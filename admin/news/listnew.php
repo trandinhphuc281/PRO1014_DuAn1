@@ -59,18 +59,18 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col" style="text-align:center;">Tiêu đề</th>
-                                    <th scope="col" style="text-align:center;">Mô tả</th>
-                                    <th scope="col" style="text-align:center;">Hình ảnh</th>
-                                    <th scope="col" style="text-align:center;">Ngày viết</th>
-                                    <th scope="col" style="text-align:center;">Action</th>
+                                    <th>#</th>
+                                    <th style="text-align:center;">Tiêu đề</th>
+                                    <th style="text-align:center;">Mô tả</th>
+                                    <th style="text-align:center;">Hình ảnh</th>
+                                    <th style="text-align:center;">Ngày viết</th>
+                                    <th style="text-align:center;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($news as $new) : ?>
                                     <tr>
-                                        <td scope="row"><?php echo $new['id'] ?></td>
+                                        <td><?php echo $new['id'] ?></td>
                                         <td><?php echo $new['title'] ?></td>
                                         <td><?php echo $new['discription'] ?></td>
                                         <td style="text-align:center;width:150px;"><img src="../img/<?php echo $new['image'] ?>" alt="" style="width:100%;height:100%;"></td>
