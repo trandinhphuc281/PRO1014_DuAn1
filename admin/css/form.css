@@ -1,0 +1,122 @@
+.error{
+    color: red;
+}
+/*===========form loại hàng=============*/
+.form{
+    border: 1px solid #ffffffff;
+    border-radius: 10px;
+    background: #ffffffff;
+    margin-bottom: 50px;
+}
+.text{
+    text-align: center;
+}
+.text h4{
+    margin: 0 auto;
+    padding: 20px 0;
+    font-weight: bold;
+    font-size: 20px;
+}
+.form1{
+    margin: 0 100px 30px 100px;
+}
+.form1-row{
+    margin-bottom: 20px;
+}
+.form1-row span{
+    display: block;
+    margin-bottom: 10px;
+}
+.form1 input{
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+    border: 1px solid #cccc;
+    background: #cccc;
+}
+.form1-btn{
+    padding-top: 20px;
+}
+.form1-btn button{
+    height: 40px;
+    background: #2D1476;
+    color: #ffffffff;
+    border-radius: 5px;
+    border: 1px solid #2D1476;
+    margin-right: 30px;
+}
+a{
+    text-decoration: none;
+}
+#span{
+    text-align: center;
+    border: 1px solid #2D1476;
+    height: 40px;
+    padding: 10px 40px;
+    border-radius: 5px;
+    background: #2D1476;
+    color: #ffffffff;
+}
+/*==========list loại hàng============*/
+#table{
+    background: #ffffffff;
+    border: 1px solid #ffffffff;
+    border-radius: 5px; 
+}
+.btn-success{
+    padding: 0 20px;
+}
+/*==========form sản phẩm=========*/
+.form2{
+    margin: 0 100px 20px 100px;
+}
+.form2-row{
+    margin-bottom: 20px;
+}
+.form2-row span{
+    display: block;
+    margin-bottom: 10px;
+}
+.form2 input{
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+    border: 1px solid #cccc;
+    background: #cccc;
+}
+.form2-row select{
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+    border: 1px solid #cccc;
+    background: #cccc;
+}
+.form-row2a{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    margin-bottom: 20px;
+}
+.form-row2a-col span{
+    display: block;
+    margin-bottom: 10px;
+}
+.form2-row2b span{
+    display: block;
+    margin-bottom: 10px;
+}
+.form2-row2b input{
+    width: 100%;
+    height: 120px;
+}
+.form2-btn{
+    padding-top: 20px;
+}
+.form2-btn button{
+    height: 40px;
+    background: #2D1476;
+    color: #ffffffff;
+    border-radius: 5px;
+    border: 1px solid #2D1476;
+    margin-right: 30px;
+}
