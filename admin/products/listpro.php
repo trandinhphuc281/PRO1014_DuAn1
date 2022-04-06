@@ -1,3 +1,6 @@
+<?php
+include '../config.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,11 +49,26 @@
                         <img src="../img/banner.png" alt="">
                     </div>
                     <?php
+                    $item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 5;
+                    $current_page = !empty($_GET['page']) ? $_GET['page'] : 1;
+                    $offset = ($current_page - 1) * $item_per_page;
                     $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
-                    $query = "SELECT * FROM products";
+                    $query = "SELECT * FROM products ORDER BY id ASC LIMIT " . $item_per_page . " OFFSET " . $offset . "";
                     $stmt = $connection->prepare($query);
                     $stmt->execute();
                     $products = $stmt->fetchAll();
+                    // đếm số sản phẩm
+                    $total = mysqli_query($con, "SELECT * FROM products");
+                    // var_dump($total);
+                    // die;
+                    // tính tổng sản phẩm
+                    $total = $total->num_rows;
+
+                    // tính số trang
+                    $totalPage = ceil($total / $item_per_page);
+                    // echo "<pre>";
+                    // var_dump($products);
+                    // die;
                     ?>
                     <div id="table" style="padding: 0 30px 50px 30px;width:100">
                         <div class="text">
@@ -89,12 +107,14 @@
                                 <?php endforeach ?>
                             </tbody>
                         </table>
+                        <?php include '../page.php' ?>
                         <div class="form1-btn">
                             <a href="./pro.php" style="text-decoration: none;">
                                 <button type="button" class="btn btn-success">Thêm sản phẩm</button>
                             </a>
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>

@@ -1,3 +1,62 @@
+<?php session_start();
+include "./config.php";
+?>
+<?php
+// chi tiết sản phẩm
+$id = $_GET["id"];
+$connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
+$query = "SELECT * FROM products WHERE id=$id";
+$stmt = $connection->prepare($query);
+$stmt->execute();
+$sanpham = $stmt->fetch();
+// echo "<pre>";
+// var_dump($sanpham);
+// die;
+?>
+<?php
+// sản phẩm khác
+$connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
+$queryOther = "SELECT * FROM products WHERE id_cate = $sanpham[8] ORDER BY RAND() LIMIT 4;";
+$stmt = $connection->prepare($queryOther);
+$stmt->execute();
+$productOther = $stmt->fetchAll();
+// var_dump($productOther);
+// die;
+?>
+<?php
+//Lượt xem 
+$connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
+$queryup = "UPDATE products SET view = view + 1 WHERE id = $id";
+$stmt = $connection->prepare($queryup);
+$stmt->execute();
+?>
+<?php
+// Bình luận
+if (isset($_POST['guibl'])) {
+    $content = $_POST['content'];
+    if (isset($_SESSION['khach_hang'])) {
+        $id_pro = $_GET['id'];
+        $id_user = mysqli_fetch_array($con->query("select * from users where email = '" . $_SESSION['khach_hang']['email'] . "'"));
+        $id_user = $id_user['id'];
+        if (strlen($content) > 400) {
+            echo "<script>alert('Nội dung bình luận không quá 400 từ!')</script>";
+        } else {
+            $con->query("insert into comments(id_user,id_pro,created_at,content)values('$id_user','$id_pro',now(),'$content')");
+        }
+    } else if (isset($_SESSION['admin'])) {
+        $id_pro = $_GET['id'];
+        $id_user = mysqli_fetch_array($con->query("select * from users where email = '" . $_SESSION['admin']['email'] . "'"));
+        $id_user = $id_user['id'];
+        if (strlen($content) > 400) {
+            echo "<script>alert('Nội dung bình luận không quá 400 từ!')</script>";
+        } else {
+            $con->query("insert into comments(id_user,id_pro,created_at,content)values('$id_user','$id_pro',now(),'$content')");
+        }
+    } else {
+        echo "<script>alert('Vui lòng đăng nhập để bình luận')</script>";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +67,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="../view/css/style.css">
     <link rel="stylesheet" href="../view/css/form.css">
+    <link rel="stylesheet" href="../view/css/sub-menu.css">
 </head>
 
 <body>
@@ -25,15 +85,7 @@
                             <p>FREESHIP MỌI ĐƠN HÀNG TỪ 80K, ÁP DỤNG CHO TẤT CẢ TỪ HÀ NỘI, HCM, VÀ CÁC TỈNH THÀNH.</p>
                         </div>
                     </div>
-                    <div class="header_search_bot">
-                        <form action="">
-                            <input type="text" placeholder="  Tìm kiếm sản phẩm">
-                            <button type="submit">Tìm kiếm</button>
-                            <a href="../view/form/log_in.php">
-                                <p id="login">Đăng nhập</p>
-                            </a>
-                        </form>
-                    </div>
+                    <?php include("./header_search.php"); ?>
                 </div>
             </div>
         </div>
@@ -67,31 +119,32 @@
             </div>
         </div>
         <script src="../assets/js/slideshows.js"></script>
-        <div class="detail-pro">
+        <div class="detail-pro" style="height: 1400px;">
             <div class="detail-pro-row">
                 <div class="detail-pro-row-col">
-                    <img src="./img/tin6.png" alt="">
+                    <img src="../admin/img/<?php echo $sanpham["image"] ?>" alt="">
                 </div>
                 <div class="detail-pro-row-col1">
-                    <h3>Tên sản phẩm</h3>
-                    <span>Gía sản phẩm</span>
+                    <h3><?php echo $sanpham["name"] ?></h3>
+                    <span>Giá: <?php echo $sanpham["price"] ?> đ</span>
                     <form action="" method="POST">
                         <p class="quantity">Số lượng</p>
-                        <input type="number" min="1" name="" id="quantity">
+                        <input type="number" min="1" name="quantity" id="quantity">
                         <div class="but">
-                            <button type="submit" name="" id="them">Thêm vào giỏ hàng</button>
+                            <button type="submit" name="them" id="them">Thêm vào giỏ hàng</button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="detail-pro-row2">
                 <h3>Mô tả sản phẩm</h3>
-                <p>ghàkksjfgghkl</p>
+                <p><?php echo $sanpham["content"] ?></p>
             </div>
             <div class="detail-pro-row2">
                 <h3>Bình luận</h3>
-                <form action="" method="POST">
-                    <input type="text" name="" id="" placeholder="" autocomplete="off">
+                <form method="POST" style="display: flex;">
+                    <input type="text" name="content" id="" placeholder="" autocomplete="off" style="width:88%;margin-right:20px;">
+                    <button type="submit" name="guibl" style="background: #0093AB;border: 1px solid #0093AB;width: 10%;border-radius: 10px">Gửi</button>
                 </form>
                 <div class="table">
                     <span style="color: black;">Tên người bình luận</span>
@@ -101,13 +154,15 @@
             <section id="section">
                 <h3>Sản phẩm liên quan</h3>
                 <div id="main_row">
-                    <div class="main_row_col">
-                        <a href="#">
-                            <img src="../view/img/item.png" alt="">
-                        </a>
-                        <span>89,000đ</span>
-                        <h4>Sữa Rửa Mặt Chiết Xuất Chanh Himalaya</h4>
-                    </div>
+                    <?php foreach ($productOther as $sanphamkhac) : ?>
+                        <div class="main_row_col">
+                            <a href="./detail-pro.php?id=<?php echo $sanphamkhac["id"] ?>">
+                                <img src="../admin/img/<?php echo $sanphamkhac["image"] ?>" alt="">
+                            </a>
+                            <span>Giá: <?php echo $sanphamkhac["price"] ?> đ</span>
+                            <h4><?php echo $sanphamkhac["name"] ?></h4>
+                        </div>
+                    <?php endforeach ?>
                 </div>
             </section>
         </div>

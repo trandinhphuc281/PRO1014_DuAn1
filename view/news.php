@@ -1,3 +1,19 @@
+<?php session_start(); ?>
+<?php
+$connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
+$query = "SELECT * FROM news WHERE discription != ''";
+$stmt = $connection->prepare($query);
+$stmt->execute();
+$news = $stmt->fetchAll();
+// var_dump($news);
+// die;
+$query = "SELECT * FROM news WHERE 1 ORDER BY created_at DESC LIMIT 0,5";
+$stmt = $connection->prepare($query);
+$stmt->execute();
+$newesc = $stmt->fetchAll();
+// var_dump($newesc);
+// die;
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +24,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="../view/css/style.css">
     <link rel="stylesheet" href="../view/css/form.css">
+    <link rel="stylesheet" href="../view/css/sub-menu.css">
 </head>
 
 <body>
@@ -25,15 +42,7 @@
                             <p>FREESHIP MỌI ĐƠN HÀNG TỪ 80K, ÁP DỤNG CHO TẤT CẢ TỪ HÀ NỘI, HCM, VÀ CÁC TỈNH THÀNH.</p>
                         </div>
                     </div>
-                    <div class="header_search_bot">
-                        <form action="">
-                            <input type="text" placeholder="  Tìm kiếm sản phẩm">
-                            <button type="submit">Tìm kiếm</button>
-                            <a href="../view/form/log_in.php">
-                                <p id="login">Đăng nhập</p>
-                            </a>
-                        </form>
-                    </div>
+                    <?php include("./header_search.php"); ?>
                 </div>
             </div>
         </div>
@@ -73,130 +82,35 @@
             </div>
             <div class="new_content">
                 <div class="new_content-col1">
-                    <div class="new_content-col1-row">
-                        <div class="new_content-col1-row-col">
-                            <a href="">
-                                <img src="../view/img/tin1.png" alt="">
-                            </a>
+                    <?php foreach ($news as $new) : ?>
+                        <div class="new_content-col1-row">
+                            <div class="new_content-col1-row-col">
+                                <a href="./new-detail.php?id=<?php echo $new["id"] ?>">
+                                    <img src="../admin/img/<?php echo $new["image"] ?>" alt="">
+                                </a>
+                            </div>
+                            <div class="new_content-col1-row-col" id="text">
+                                <h4><?php echo $new["title"] ?></h4>
+                                <span><i><?php echo $new["created_at"] ?></i></span>
+                                <p><?php echo $new["discription"] ?>...</p>
+                            </div>
                         </div>
-                        <div class="new_content-col1-row-col" id="text">
-                            <h4>Mỹ phẩm Uniquemi khuyến mãi dịp Black Friday</h4>
-                            <span><i>26/02/2022</i></span>
-                            <p>Thương hiệu mỹ phẩm Hàn Quốc - Uniquemi có bán tại các sàn thương mại điện tử với mức giá
-                                ưu đãi trong dịp Black Friday năm nay...</p>
-                        </div>
-                    </div>
-                    <div class="new_content-col1-row">
-                        <div class="new_content-col1-row-col">
-                            <a href="">
-                                <img src="../view/img/tin2.png" alt="">
-                            </a>
-                        </div>
-                        <div class="new_content-col1-row-col" id="text">
-                            <h4>Chống dịch vẫn đẹp trai thả ga - Sợ gì Corona</h4>
-                            <span><i>23/02/2022</i></span>
-                            <p>Ở nhà tránh dịch vẫn tha hồ đẹp trai với chương trình ưu đãi ngập tràn từ 30Shine Store.
-                                Luôn đồng hành cùng anh em để đẹp trai bất chấp mọi hoàn cảnh, ghé ngay 30Shinestore.com
-                                tha hồ mua sắm, tiết kiệm hàng trăm nghìn đồng...</p>
-                        </div>
-                    </div>
-                    <div class="new_content-col1-row">
-                        <div class="new_content-col1-row-col">
-                            <a href="">
-                                <img src="../view/img/tin3.png" alt="">
-                            </a>
-                        </div>
-                        <div class="new_content-col1-row-col" id="text">
-                            <h4>Dòng mỹ phẩm thiên nhiên chiết xuất từ các thảo mộc thuần Việt</h4>
-                            <span><i>22/02/2022</i></span>
-                            <p>Dòng mỹ phẩm Dr Mai có nguồn gốc từ thiên nhiên, trong đó nổi bật là Serum Dr Mai, được
-                                chiết xuất từ tỏi, gừng, diếp cá, tinh dầu tràm trà… giúp phục hồi làn da mụn....</p>
-                        </div>
-                    </div>
-                    <div class="new_content-col1-row">
-                        <div class="new_content-col1-row-col">
-                            <a href="">
-                                <img src="../view/img/tin4.png" alt="">
-                            </a>
-                        </div>
-                        <div class="new_content-col1-row-col" id="text">
-                            <h4>L’Oréal, Maybelline giảm đến 35% tại Hasaki</h4>
-                            <span><i>20/02/2022</i></span>
-                            <p>Chương trình khuyến mãi mỹ phẩm L'Oréal, Maybelline tại Hasaki nhân dịp Giáng sinh và năm
-                                mới kéo dài từ ngày 15 đến 25/12....</p>
-                        </div>
-                    </div>
-                    <div class="new_content-col1-row">
-                        <div class="new_content-col1-row-col">
-                            <a href="">
-                                <img src="../view/img/tin5.png" alt="">
-                            </a>
-                        </div>
-                        <div class="new_content-col1-row-col" id="text">
-                            <h4>Mỹ phẩm trang điểm cơ bản cho phái đẹp</h4>
-                            <span><i>17/02/2022</i></span>
-                            <p>Phấn nước cushion, bảng màu mắt, son môi, kem chống nắng và nước tẩy trang là phụ kiện
-                                make-up cơ bản giúp phái đẹp tân trang diện mạo....</p>
-                        </div>
-                    </div>
-                    <div class="new_content-col1-row">
-                        <div class="new_content-col1-row-col">
-                            <a href="">
-                                <img src="../view/img/tin6.png" alt="">
-                            </a>
-                        </div>
-                        <div class="new_content-col1-row-col" id="text">
-                            <h4>Sulwhasoo hướng đến phân khúc chống lão hóa da cao cấp</h4>
-                            <span><i>13/02/2022</i></span>
-                            <p>Các dòng sản phẩm thương hiệu Sulwhasoo chiết xuất từ tinh chất nhân sâm trên công nghệ
-                                hiện đại nhằm phục hồi chuyên sâu, tái tạo làn da, chống lão hóa....</p>
-                        </div>
-                    </div>
+                    <?php endforeach ?>
                 </div>
                 <div class="new_content-col2">
-                    <div class="new_content-col2-row1">
-                        <div class="new_content-col1-row1-col">
-                            <img src="../view/img/tinc.png" alt="">
+                    <?php foreach ($newesc as $NEW) : ?>
+                        <div class="new_content-col2-row1">
+                            <div class="new_content-col1-row1-col">
+                                <a href="./new-detail.php?id=<?php echo $NEW["id"] ?>">
+                                    <img src="../admin/img/<?php echo $NEW["image"] ?>" alt="">
+                                </a>
+
+                            </div>
+                            <div class="new_content-col2-row1-col" id="text2">
+                                <h4><?php echo $NEW["title"] ?></h4>
+                            </div>
                         </div>
-                        <div class="new_content-col2-row1-col" id="text2">
-                            <h4>Review nhanh Kem chống nắng Anessa Perfect UV Sunscreen Skincare Milk Spf 50+</h4>
-                        </div>
-                    </div>
-                    <div class="new_content-col2-row1">
-                        <div class="new_content-col1-row1-col">
-                            <img src="../view/img/tina.png" alt="">
-                        </div>
-                        <div class="new_content-col2-row1-col" id="text2">
-                            <h4>Kem Dưỡng Ẩm Neutrogena Hydro Boost Water Gel</h4>
-                        </div>
-                    </div>
-                    <div class="new_content-col2-row1">
-                        <div class="new_content-col1-row1-col">
-                            <img src="../view/img/tinb.png" alt="">
-                        </div>
-                        <div class="new_content-col2-row1-col" id="text2">
-                            <h4>Tại sao sữa rửa mặt Cetaphil Gentle Skin Cleanser được các bác sĩ da liễu khuyên dùng
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="new_content-col2-row1">
-                        <div class="new_content-col1-row1-col">
-                            <img src="../view/img/tind.png" alt="">
-                        </div>
-                        <div class="new_content-col2-row1-col" id="text2">
-                            <h4>Loreal là thương hiệu mỹ phẩm rất lâu đời vô cùng quen thuộc với người dùng Việt Nam
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="new_content-col2-row1">
-                        <div class="new_content-col1-row1-col">
-                            <img src="../view/img/tine.png" alt="">
-                        </div>
-                        <div class="new_content-col2-row1-col" id="text2">
-                            <h4>Cách làm nước hoa hồng tại nhà đơn giản, hiệu quả gấp đôi</h4>
-                        </div>
-                    </div>
-                    <hr>
+                    <?php endforeach ?>
                 </div>
             </div>
         </div>

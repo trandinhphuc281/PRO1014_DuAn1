@@ -1,3 +1,7 @@
+<?php
+$connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
+$sql = "";
+?>
 <!DOCTYPE html>
 <html lang="en">
 

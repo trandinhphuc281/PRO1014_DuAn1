@@ -43,9 +43,21 @@
         </div>
         <div class="form_login">
             <div class="text_login">
-                <h2>Đăng Kí Thành Viên</h2>
+                <h2>Thông Tin Tài Khoản</h2>
             </div>
             <?php
+            // Lấy thông tin tài khoản
+            $id = $_GET['id'];
+            $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
+            $query = "SELECT * FROM users WHERE id= '$id'";
+            $stmt = $connection->prepare($query);
+            $stmt->execute();
+            $taikhoan = $stmt->fetch();
+            // echo "<pre>";
+            // var_dump($taikhoan);
+            // die;
+
+            // Cập nhật lại tài khoản
             if (isset($_POST["login"])) {
                 $name = $_POST["name"];
                 $email = $_POST["email"];
@@ -54,11 +66,10 @@
                 $passwords = $_POST["passwords"];
                 $address = $_POST["address"];
                 if ($name != "" && $email != "" && $phone != "" && $password != "" && $passwords != "" && $address != "") {
-                    $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
-                    $query = "INSERT INTO users (name, email, password, phone, address) VALUES ('$name', '$email', '$password', '$phone', '$address')";
+                    $query = "UPDATE users SET name ='$name', email='$email', password='$passwords', phone='$phone', address='$address' WHERE id='$id'";
                     $stmt = $connection->prepare($query);
                     $stmt->execute();
-                    header("location:../log_in.php");
+                    echo "<script>alert('Cập nhật thành công')</script>";
                 } else {
                     echo "<script>alert('Vui lòng nhập đầy đủ thông tin cá nhân')</script>";
                 }
@@ -67,29 +78,26 @@
             <form action="" method="POST">
                 <div class="mb-3">
                     <p>Họ và tên:</p>
-                    <input type="text" onblur="checkName()" id="username" name="name" placeholder="  VD:Trần Văn A" autocomplete="off">
+                    <input type="text" onblur="checkName()" id="username" name="name" placeholder="  VD:Trần Văn A" value="<?php echo $taikhoan["name"] ?>" autocomplete="off">
                     <span id="errorName"></span>
                     <p>Email:</p>
-                    <input type="email" onblur="checkEmail()" id="email" name="email" placeholder="  VD:abc@gmail.com" autocomplete="off">
+                    <input type="email" onblur="checkEmail()" id="email" name="email" placeholder="  VD:abc@gmail.com" value="<?php echo $taikhoan["email"] ?>" autocomplete="off">
                     <span id="errorEmail"></span>
                     <p>Số điện thoại:</p>
-                    <input type="text" onblur="checkPhone()" id="phone" name="phone" placeholder=" VD:0123456789" autocomplete="off">
+                    <input type="text" onblur="checkPhone()" id="phone" name="phone" placeholder=" VD:0123456789" value="<?php echo $taikhoan["phone"] ?>" autocomplete="off">
                     <span id="errorPhone"></span>
-                    <p>Mật khẩu:</p>
+                    <p>Mật khẩu mới:</p>
                     <input type="password" onblur="checkPassword()" id="password" name="password" placeholder="  VD:123456" autocomplete="off">
                     <span id="errorPassword"></span>
                     <p>Xác nhận lại mật khẩu:</p>
                     <input type="password" onblur="checkPasswords()" id="passwords" name="passwords" placeholder="  VD:123456" autocomplete="off">
                     <span id="errorPasswords"></span>
                     <p>Địa chỉ:</p>
-                    <input type="text" onblur="chekAddress()" id="address" name="address" placeholder=" VD:Nam Từ Liêm, Hà Nội" autocomplete="off">
+                    <input type="text" onblur="chekAddress()" id="address" name="address" placeholder=" VD:Nam Từ Liêm, Hà Nội" value="<?php echo $taikhoan["address"] ?>" autocomplete="off">
                     <span id="errorAddress"></span>
                 </div>
                 <div class="submit_register">
-                    <button type="submit" name="login" id="submit">ĐĂNG KÍ</button>
-                </div>
-                <div class="text1">
-                    <a href="../log_in.php" style="color: rgba(32, 172, 236, 0.8);">Bạn đã có tài khoản?</a>
+                    <button type="submit" name="login" id="submit">Cập nhật tài khoản</button>
                 </div>
             </form>
         </div>

@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +9,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/form.css">
+    <link rel="stylesheet" href="../css/sub-menu.css">
 </head>
 
 <body>
@@ -25,15 +27,7 @@
                             <p>FREESHIP MỌI ĐƠN HÀNG TỪ 80K, ÁP DỤNG CHO TẤT CẢ TỪ HÀ NỘI, HCM, VÀ CÁC TỈNH THÀNH.</p>
                         </div>
                     </div>
-                    <div class="header_search_bot">
-                        <form action="">
-                            <input type="text" placeholder="  Tìm kiếm sản phẩm">
-                            <button type="submit">Tìm kiếm</button>
-                            <a href="../form/log_in.php">
-                                <p id="login">Đăng nhập</p>
-                            </a>
-                        </form>
-                    </div>
+                    <?php include("../header_search.php"); ?>
                 </div>
             </div>
         </div>
@@ -57,7 +51,7 @@
                     <input type="email" onblur="checkEmail()" id="email" name="" placeholder="  VD:abc@gmail.com" autocomplete="off">
                     <span id="errorEmail"></span>
                     <div class="formtext">
-                        <a href="../form/log_in.php" style="color: rgba(32, 172, 236, 0.8);">
+                        <a href="../log_in.php" style="color: rgba(32, 172, 236, 0.8);">
                             Quay lại
                         </a>
                     </div>

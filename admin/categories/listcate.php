@@ -60,7 +60,6 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Parent Id</th>
                                     <th>Tên loại hàng</th>
                                     <th>Action</th>
                                 </tr>
@@ -69,7 +68,6 @@
                                 <?php foreach ($categories as $categorie) : ?>
                                     <tr>
                                         <th><?php echo $categorie["id"] ?></th>
-                                        <td><?php echo $categorie["parent_id"] ?></td>
                                         <td><?php echo $categorie["name"] ?></td>
                                         <td>
                                             <a href="./update-cate.php?id=<?php echo $categorie['id'] ?>" style="text-decoration: none;">

@@ -58,11 +58,10 @@
                     <!-- Sửa thông tin loại hàng -->
                     <?php
                     if (isset($_POST["btn-submit"])) {
-                        $parent_id = $_POST["parent_id"];
                         $name = $_POST["name"];
-                        if ($parent_id != "" && $name != "") {
+                        if ($name != "") {
                             $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
-                            $query = "UPDATE categories SET name= '$name',parent_id = '$parent_id' WHERE id=$id";
+                            $query = "UPDATE categories SET name= '$name' WHERE id=$id";
                             $stmt = $connection->prepare($query);
                             $stmt->execute();
                             header("location:./listcate.php");
@@ -75,12 +74,6 @@
                                 <h4>Sửa loại hàng</h4>
                             </div>
                             <div class="form1">
-                                <input type="text" onblur="checkParent()" id="parent_id" name="parent_id" value="<?php echo $categories["id"] ?>" autocomplete="off">
-                                <div class="form1-row">
-                                    <span>Parent Id</span>
-                                    <input type="text" onblur="checkParent()" id="parent_id" name="parent_id" value="<?php echo $categories["parent_id"] ?>" autocomplete="off">
-                                    <span id="errorParent" class="error"></span>
-                                </div>
                                 <div class="form1-row">
                                     <span>Tên loại hàng</span>
                                     <input type="text" onblur="checkCate()" id="categorie" name="name" value="<?php echo $categories["name"] ?>" autocomplete="off">

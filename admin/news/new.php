@@ -1,3 +1,26 @@
+<?php
+if (isset($_POST['submit'])) {
+    $title = $_POST["title"];
+    $discription = $_POST["discription"];
+    $image = $_FILES["image"]["name"];
+    $created_at = $_POST["created_at"];
+    $content = $_POST["content"];
+    $file = $_FILES["image"];
+    move_uploaded_file($file['tmp_name'], "../img/" . $file['name']);
+    if ($title != "" && $discription != "" && $image != "" && $created_at != "" && $content != "") {
+        $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
+        $query = "INSERT INTO news (title, discription, image, created_at, content)
+VALUES ('$title', '$discription', '$image', '$created_at', '$content')";
+        $stmt = $connection->prepare($query);
+        $stmt->execute();
+        header("location:./listnew.php");
+    } else {
+        echo "<script>alert('Vui lòng nhập đầy đủ thông tin bài viết')</script>";
+    }
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,7 +69,7 @@
                         <img src="../img/banner.png" alt="">
                     </div>
                     <div class="form">
-                        <form action="./add-new.php" method="POST" enctype="multipart/form-data">
+                        <form action="" method="POST" enctype="multipart/form-data">
                             <div class="text">
                                 <h4>Thêm tin tức</h4>
                             </div>

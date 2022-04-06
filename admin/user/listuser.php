@@ -45,6 +45,15 @@
                     <div class="banner">
                         <img src="../img/banner.png" alt="">
                     </div>
+                    <?php
+                    $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
+                    $query = "SELECT * FROM users";
+                    $stmt = $connection->prepare($query);
+                    $stmt->execute();
+                    $users = $stmt->fetchAll();
+                    // var_dump($users);
+                    // die;
+                    ?>
                     <div id="table" style="padding: 0 30px 50px 30px;">
                         <div class="text">
                             <h4>Danh sách khách hàng</h4>
@@ -62,28 +71,32 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th>1</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <a href="" style="text-decoration: none;">
-                                            <button type="button" class="btn btn-primary">Edit</button>
-                                        </a>
-                                        <a href="" style="text-decoration: none;">
-                                            <button type="button" class="btn btn-danger">Delete</button>
-                                        </a>
-                                    </td>
-                                </tr>
+                                <?php foreach ($users as $user) : ?>
+                                    <tr>
+                                        <th><?php echo $user["id"] ?></th>
+                                        <td><?php echo $user["name"] ?></td>
+                                        <td><?php echo $user["email"] ?></td>
+                                        <td><?php echo $user["phone"] ?></td>
+                                        <td><?php echo $user["address"] ?></td>
+                                        <td><?php echo $user["role"] == 0 ? 'Admin' : 'Khách' ?></td>
+                                        <td>
+                                            <a onclick="return Del('<?php echo $user['id'] ?>')" href="./delete-user.php?id=<?php echo $user['id'] ?>" style="text-decoration: none;">
+                                                <button type="button" class="btn btn-danger">Delete</button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </section>
+        <script>
+            function Del() {
+                return confirm("Bạn có muốn xóa tài khoản này không?");
+            }
+        </script>
     </div>
 </body>
 

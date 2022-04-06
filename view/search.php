@@ -1,6 +1,4 @@
-<?php
-session_start();
-?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,6 +27,22 @@ session_start();
                             <p>FREESHIP MỌI ĐƠN HÀNG TỪ 80K, ÁP DỤNG CHO TẤT CẢ TỪ HÀ NỘI, HCM, VÀ CÁC TỈNH THÀNH.</p>
                         </div>
                     </div>
+                    <?php
+                    if (isset($_POST["search"])) {
+                        $tukhoa = $_POST["searchpro"];
+                        if ($tukhoa != "") {
+                            $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
+                            $query = "SELECT * FROM products WHERE name LIKE '%$tukhoa%'";
+                            $stmt = $connection->prepare($query);
+                            $stmt->execute();
+                            $products = $stmt->fetchAll();
+                            // var_dump($products);
+                            // die;
+                        } else {
+                            echo '<script>alert("Vui lòng nhập vào thanh tìm kiếm")</script>';
+                        }
+                    }
+                    ?>
                     <?php include("./header_search.php"); ?>
                 </div>
             </div>
@@ -42,95 +56,22 @@ session_start();
                 <li><a href="contact.php">LIÊN HỆ</a></li>
                 <li><a href="">GIỎ HÀNG</a></li>
             </ul>
+            <script>
+
+            </script>
         </div>
-        <div class="banner">
-            <div class="banner_row">
-                <div class="banner_row_col">
-                    <img src="../assets/img/0.png" id="image" alt="">
-                </div>
-                <div class="banner_row_col">
-                    <div class="banner_row_col1_row">
-                        <a href="">
-                            <img src="../view/img/banner-right-1.png" alt="">
-                        </a>
-                    </div>
-                    <div class="banner_row_col1_row">
-                        <a href="">
-                            <img src="../view/img/banner-right-2.png" alt="">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script src="../assets/js/slideshows.js"></script>
         <div class="main">
             <div class="main_text">
-                <h3>HÔM NAY CÓ GÌ HOT??</h3>
+                <h3>Kết quả tìm kiếm "<?php echo $tukhoa ?>"</h3>
             </div>
-            <?php
-            $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
-            $query = "SELECT * FROM products WHERE 1 ORDER BY created_at DESC LIMIT 0,4";
-            $stmt = $connection->prepare($query);
-            $stmt->execute();
-            $products = $stmt->fetchAll();
-            // var_dump($products);
-            // die;
-            ?>
             <div id="main_row">
                 <?php foreach ($products as $product) : ?>
                     <div class="main_row_col">
                         <a href="./detail-pro.php?id=<?php echo $product["id"] ?>">
                             <img src="../admin/img/<?php echo $product["image"] ?>" alt="">
                         </a>
-                        <span>Giá: <?php echo $product["price"] ?>đ</span>
+                        <span><?php echo $product["price"] ?>đ</span>
                         <h4><?php echo $product["name"] ?></h4>
-                    </div>
-                <?php endforeach ?>
-            </div>
-            <section class="banner_center">
-                <div class="banners_center1">
-                    <a href="">
-                        <img src="./img/banner-center-1.png" alt="">
-                    </a>
-                </div>
-                <div class="banners_center2">
-                    <div class="banners_center2_row">
-                        <a href="">
-                            <img src="./img/banner-center-3.png" alt="">
-                        </a>
-                    </div>
-                    <div class="banners_center2_row1">
-                        <a href="">
-                            <img src="./img/banner-center-4.png" alt="">
-                        </a>
-                    </div>
-                </div>
-                <div class="banners_center3">
-                    <a href="">
-                        <img src="./img/banner-center-2.png" alt="">
-                    </a>
-                </div>
-            </section>
-            <div class="main_text">
-                <h3>SẢN PHẨM MỚI</h3>
-            </div>
-            <?php
-            $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
-            $query = "SELECT * FROM products WHERE 1 ORDER BY view DESC LIMIT 0,8";
-            $stmt = $connection->prepare($query);
-            $stmt->execute();
-            $product = $stmt->fetchAll();
-            // var_dump($product);
-            // die;
-            ?>
-            <div id="main_row" style="height: 100%;">
-                <?php foreach ($product as $item) : ?>
-                    <div class="main_row_col">
-                        <a href="./detail-pro.php?id=<?php echo $item["id"] ?>">
-                            <img src="../admin/img/<?php echo $item["image"] ?>" alt="">
-                        </a>
-                        <span>Giá: <?php echo $item["price"] ?>đ</span>
-                        <h4><?php echo $item["name"] ?></h4>
                     </div>
                 <?php endforeach ?>
             </div>

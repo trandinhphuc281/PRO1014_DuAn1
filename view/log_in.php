@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,8 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/form.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/form.css">
+    <link rel="stylesheet" href="../view/css/sub-menu.css">
 </head>
 
 <body>
@@ -15,35 +17,27 @@
         <div class="header">
             <div class="header_row">
                 <div class="logo">
-                    <img src="../img/logo.png" alt="">
+                    <img src="./img/logo.png" alt="">
                 </div>
                 <div class="header_search">
                     <div class="header_search_col">
-                        <img id="free" src="../img/viman.png">
+                        <img id="free" src="./img/viman.png">
                         <div class="header_search_col-text">
                             <h3>GIAO HÀNG MIỄN PHÍ</h3>
                             <p>FREESHIP MỌI ĐƠN HÀNG TỪ 80K, ÁP DỤNG CHO TẤT CẢ TỪ HÀ NỘI, HCM, VÀ CÁC TỈNH THÀNH.</p>
                         </div>
                     </div>
-                    <div class="header_search_bot">
-                        <form action="">
-                            <input type="text" placeholder="  Tìm kiếm sản phẩm">
-                            <button type="submit">Tìm kiếm</button>
-                            <a href="../form/log_in.php">
-                                <p id="login">Đăng nhập</p>
-                            </a>
-                        </form>
-                    </div>
+                    <?php include("./header_search.php"); ?>
                 </div>
             </div>
         </div>
         <div class="navbar">
             <ul class="main-menu">
-                <li><a href="../index.php">DANH MỤC SẢN PHẨM</a></li>
+                <li><a href="./index.php">DANH MỤC SẢN PHẨM</a></li>
                 <li><a href="">SẢN PHẨM BÁN CHẠY</a></li>
-                <li><a href="../introduce.php">GIỚI THIỆU</a></li>
-                <li><a href="../news.php">TIN TỨC</a></li>
-                <li><a href="../contact.php">LIÊN HỆ</a></li>
+                <li><a href="./introduce.php">GIỚI THIỆU</a></li>
+                <li><a href="./news.php">TIN TỨC</a></li>
+                <li><a href="./contact.php">LIÊN HỆ</a></li>
                 <li><a href="">GIỎ HÀNG</a></li>
             </ul>
         </div>
@@ -51,25 +45,48 @@
             <div class="text_login">
                 <h2>Đăng Nhập</h2>
             </div>
-            <form action="" method="">
+            <?php
+            // session_start();
+            if (isset($_POST['login'])) {
+                $email = $_POST['email'];
+                $password = $_POST['password'];
+                $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
+                $sql = "SELECT * FROM users WHERE email = '$email' AND password='$password' ";
+                $stmt = $connection->prepare($sql);
+                $stmt->execute();
+                $add = $stmt->fetch();
+                if (!empty($add)) {
+                    if ($add['role'] != 0) {
+                        $_SESSION['khach_hang'] = $add;
+                        header("location:./index.php");
+                    } else {
+                        $_SESSION['admin'] = $add;
+                        header("location:../admin/index.php");
+                    }
+                } else {
+                    echo "Email hoặc mật khẩu chưa đúng, vui lòng nhập lại!";
+                }
+            }
+            ?>
+            <form action="" method="POST">
                 <div class="mb-3">
                     <p>Email</p>
-                    <input type="email" onblur="checkEmail()" id="email" name="" placeholder="  VD:abc@gmail.com" autocomplete="off">
+                    <input type="email" onblur="checkEmail()" id="email" name="email" placeholder="  VD:abc@gmail.com" autocomplete="off">
                     <span id="errorEmail"></span>
                     <p>Password</p>
-                    <input type="password" onblur="checkPassword()" id="password" name="" autocomplete="off">
+                    <input type="password" onblur="checkPassword()" id="password" name="password" autocomplete="off">
                     <span id="errorPassword"></span>
                 </div>
                 <div class="forget_pass">
-                    <a href="../form/forget_password.php" style="color: rgba(11, 165, 236, 0.8);">
+                    <a href="./form/forget_password.php" style="color: rgba(11, 165, 236, 0.8);">
                         Quên mật khẩu?
                     </a>
                 </div>
                 <div class="submit">
-                    <button type="submit" name="" id="submit">ĐĂNG NHẬP</button>
+                    <button type="submit" name="login" id="submit">ĐĂNG NHẬP</button>
                 </div>
                 <div class="text1">
-                    <p>Bạn chưa có tài khoản? Đăng kí <a href="../form/register.php" style="color: rgba(32, 172, 236, 0.8);">Tại đây</a></p>
+                    <p>Bạn chưa có tài khoản? Đăng kí <a href="./form/register.php" style="color: rgba(32, 172, 236, 0.8);">Tại đây</a></p>
                 </div>
             </form>
         </div>

@@ -27,7 +27,7 @@
                     <div class="navbar">
                         <ul id="menu">
                             <hr id="khoangcach">
-                            <li><a href="">TỚI TRANG WEB</a></li>
+                            <li><a href="../view/index.php">TỚI TRANG WEB</a></li>
                             <li><a href="./categories/cate.php">LOẠI HÀNG</a></li>
                             <li><a href="./products/pro.php">SẢN PHẨM</a></li>
                             <li><a href="./user/listuser.php">KHÁCH HÀNG</a></li>

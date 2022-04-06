@@ -74,6 +74,7 @@ function checkPassword() {
         document.getElementById("submit").disabled = false;
     }
 }
+
 /*----------check Phone----------*/
 function is_phoneNumber(phone) {
     var phoneregex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;

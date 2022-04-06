@@ -1,5 +1,17 @@
+<?php session_start(); ?>
 <?php
-session_start();
+$id = $_GET["id"];
+$connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
+$query = "SELECT * FROM news WHERE id=$id";
+$stmt = $connection->prepare($query);
+$stmt->execute();
+$news = $stmt->fetch();
+// var_dump($news);
+// die;
+$query = "SELECT * FROM news WHERE 1 ORDER BY created_at DESC LIMIT 0,5";
+$stmt = $connection->prepare($query);
+$stmt->execute();
+$tinmoi = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,9 +21,9 @@ session_start();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../view/css/style.css">
-    <link rel="stylesheet" href="../view/css/form.css">
-    <link rel="stylesheet" href="../view/css/sub-menu.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/form.css">
+    <link rel="stylesheet" href="./css/sub-menu.css">
 </head>
 
 <body>
@@ -63,76 +75,41 @@ session_start();
             </div>
         </div>
         <script src="../assets/js/slideshows.js"></script>
-        <div class="main">
-            <div class="main_text">
-                <h3>HÔM NAY CÓ GÌ HOT??</h3>
-            </div>
-            <?php
-            $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
-            $query = "SELECT * FROM products WHERE 1 ORDER BY created_at DESC LIMIT 0,4";
-            $stmt = $connection->prepare($query);
-            $stmt->execute();
-            $products = $stmt->fetchAll();
-            // var_dump($products);
-            // die;
-            ?>
-            <div id="main_row">
-                <?php foreach ($products as $product) : ?>
-                    <div class="main_row_col">
-                        <a href="./detail-pro.php?id=<?php echo $product["id"] ?>">
-                            <img src="../admin/img/<?php echo $product["image"] ?>" alt="">
-                        </a>
-                        <span>Giá: <?php echo $product["price"] ?>đ</span>
-                        <h4><?php echo $product["name"] ?></h4>
-                    </div>
-                <?php endforeach ?>
-            </div>
-            <section class="banner_center">
-                <div class="banners_center1">
-                    <a href="">
-                        <img src="./img/banner-center-1.png" alt="">
-                    </a>
-                </div>
-                <div class="banners_center2">
-                    <div class="banners_center2_row">
-                        <a href="">
-                            <img src="./img/banner-center-3.png" alt="">
-                        </a>
-                    </div>
-                    <div class="banners_center2_row1">
-                        <a href="">
-                            <img src="./img/banner-center-4.png" alt="">
-                        </a>
+        <div class="news" style="margin-bottom: 50px;">
+            <div class="new_content">
+                <div class="new_content-col1">
+                    <div class="new_content-col1-rows">
+                        <div class="new_content-col1-row">
+                            <div class="new_content-col1-row-col">
+                                <a href="./new-detail.php">
+                                    <img src="../admin/img/<?php echo $news["image"] ?>" alt="" style="height: 300px;">
+                                </a>
+                            </div>
+                            <div class="new_content-col1-row-col" id="text">
+                                <h4><?php echo $news["title"] ?></h4>
+                                <span><i><?php echo $news["created_at"] ?></i></span>
+                                <p style="font-weight: 500;"><?php echo $news["discription"] ?>...</p>
+                            </div>
+                        </div>
+                        <div class="new_content-col1-rows-text">
+                            <p><?php echo $news["content"] ?></p>
+                        </div>
                     </div>
                 </div>
-                <div class="banners_center3">
-                    <a href="">
-                        <img src="./img/banner-center-2.png" alt="">
-                    </a>
+                <div class="new_content-col2">
+                    <?php foreach ($tinmoi as $tinmois) : ?>
+                        <div class="new_content-col2-row1">
+                            <div class="new_content-col1-row1-col">
+                                <a href="./new-detail.php?id=<?php echo $tinmois["id"] ?>">
+                                    <img src="../admin/img/<?php echo $tinmois["image"] ?>" alt="">
+                                </a>
+                            </div>
+                            <div class="new_content-col2-row1-col" id="text2">
+                                <h4><?php echo $tinmois["title"] ?></h4>
+                            </div>
+                        </div>
+                    <?php endforeach ?>
                 </div>
-            </section>
-            <div class="main_text">
-                <h3>SẢN PHẨM MỚI</h3>
-            </div>
-            <?php
-            $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
-            $query = "SELECT * FROM products WHERE 1 ORDER BY view DESC LIMIT 0,8";
-            $stmt = $connection->prepare($query);
-            $stmt->execute();
-            $product = $stmt->fetchAll();
-            // var_dump($product);
-            // die;
-            ?>
-            <div id="main_row" style="height: 100%;">
-                <?php foreach ($product as $item) : ?>
-                    <div class="main_row_col">
-                        <a href="./detail-pro.php?id=<?php echo $item["id"] ?>">
-                            <img src="../admin/img/<?php echo $item["image"] ?>" alt="">
-                        </a>
-                        <span>Giá: <?php echo $item["price"] ?>đ</span>
-                        <h4><?php echo $item["name"] ?></h4>
-                    </div>
-                <?php endforeach ?>
             </div>
         </div>
         <div class="footer">
@@ -164,8 +141,6 @@ session_start();
                 </div>
             </div>
         </div>
-    </div>
-    <script src="../view/js/validate-form.js"></script>
 </body>
 
 </html>

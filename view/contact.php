@@ -1,3 +1,5 @@
+<?php session_start();
+include './config.php' ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +10,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="../view/css/style.css">
     <link rel="stylesheet" href="../view/css/form.css">
+    <link rel="stylesheet" href="../view/css/sub-menu.css">
 </head>
 
 <body>
@@ -25,15 +28,7 @@
                             <p>FREESHIP MỌI ĐƠN HÀNG TỪ 80K, ÁP DỤNG CHO TẤT CẢ TỪ HÀ NỘI, HCM, VÀ CÁC TỈNH THÀNH.</p>
                         </div>
                     </div>
-                    <div class="header_search_bot">
-                        <form action="">
-                            <input type="text" placeholder="  Tìm kiếm sản phẩm">
-                            <button type="submit">Tìm kiếm</button>
-                            <a href="../view/form/log_in.php">
-                                <p id="login">Đăng nhập</p>
-                            </a>
-                        </form>
-                    </div>
+                    <?php include("./header_search.php"); ?>
                 </div>
             </div>
         </div>
@@ -116,17 +111,31 @@
                         <p>Nếu bạn có thắc mắc gì, có thể gửi yêu cầu cho chúng tôi, và chúng
                             tôi sẽ liên lạc lại với bạn sớm nhất có thể</p>
                         <?php
-                        if (isset($_POST["submit"])) {
-                            $name = $_POST["name"];
-                            $email = $_POST["email"];
-                            $phone = $_POST["phone"];
-                            $content = $_POST["content"];
-                            if ($name != "" && $email != "" && $phone != "" && $content != "") {
-                                $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
-                                $query = "INSERT INTO contacts (name,email,phone,content)
-                            VALUES ('$name', '$email', '$phone', '$content')";
-                                $stmt = $connection->prepare($query);
-                                $stmt->execute();
+                        if (isset($_POST['submit'])) {
+                            $name = $_POST['name'];
+                            $phone = $_POST['phone'];
+                            $email = $_POST['email'];
+                            $content = $_POST['content'];
+                            if (isset($_SESSION['khach_hang'])) {
+                                $id_pro = $_GET['id'];
+                                $id_user = mysqli_fetch_array($con->query("select * from users where email = '" . $_SESSION['khach_hang']['email'] . "'"));
+                                $id_user = $id_user['id'];
+                                if (strlen($content) > 400) {
+                                    echo "<script>alert('Nội dung bình luận không quá 400 từ!')</script>";
+                                } else {
+                                    $con->query("insert into contacts(name,email,phone,content)values('$name','$phone','$email','$content')");
+                                }
+                            } else if (isset($_SESSION['admin'])) {
+                                $id_pro = $_GET['id'];
+                                $id_user = mysqli_fetch_array($con->query("select * from users where email = '" . $_SESSION['admin']['email'] . "'"));
+                                $id_user = $id_user['id'];
+                                if (strlen($content) > 400) {
+                                    echo "<script>alert('Nội dung bình luận không quá 400 từ!')</script>";
+                                } else {
+                                    $con->query("insert into contacts(name,email,phone,content)values('$name','$phone','$email','$content')");
+                                }
+                            } else {
+                                echo "<script>alert('Vui lòng đăng nhập để bình luận')</script>";
                             }
                         }
                         ?>

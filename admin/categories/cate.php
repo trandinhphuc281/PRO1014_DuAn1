@@ -1,3 +1,17 @@
+<?php
+if (isset($_POST['btn-submit'])) {
+    $name = $_POST['name'];
+    if ($name != "") {
+        $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
+        $query = "INSERT INTO categories (name) VALUES ('$name')";
+        $stmt = $connection->prepare($query);
+        $stmt->execute();
+        header("location:./listcate.php");
+    } else {
+        echo "<script>alert('Vui lòng điền tên loại hàng')</script>";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,16 +60,11 @@
                         <img src="../img/banner.png" alt="">
                     </div>
                     <div class="form">
-                        <form action="./add-cate.php" method="POST">
+                        <form action="" method="POST">
                             <div class="text">
                                 <h4>Thêm loại hàng</h4>
                             </div>
                             <div class="form1">
-                                <div class="form1-row">
-                                    <span>Parent Id</span>
-                                    <input type="text" onblur="checkParent()" id="parent_id" name="parent_id" autocomplete="off">
-                                    <span id="errorParent" class="error"></span>
-                                </div>
                                 <div class="form1-row">
                                     <span>Tên loại hàng</span>
                                     <input type="text" onblur="checkCate()" id="categorie" name="name" autocomplete="off">
