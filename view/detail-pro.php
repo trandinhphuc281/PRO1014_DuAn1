@@ -1,4 +1,5 @@
-<?php session_start();
+<?php
+session_start();
 include "./config.php";
 ?>
 <?php
@@ -56,6 +57,7 @@ if (isset($_POST['guibl'])) {
         echo "<script>alert('Vui lòng đăng nhập để bình luận')</script>";
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -91,12 +93,12 @@ if (isset($_POST['guibl'])) {
         </div>
         <div class="navbar">
             <ul class="main-menu">
-                <li><a href="index.php">DANH MỤC SẢN PHẨM</a></li>
-                <li><a href="">SẢN PHẨM BÁN CHẠY</a></li>
+                <li><a href="../index.php">DANH MỤC SẢN PHẨM</a></li>
+                <li><a href="./likepro.php">SẢN PHẨM BÁN CHẠY</a></li>
                 <li><a href="introduce.php">GIỚI THIỆU</a></li>
                 <li><a href="news.php">TIN TỨC</a></li>
                 <li><a href="contact.php">LIÊN HỆ</a></li>
-                <li><a href="">GIỎ HÀNG</a></li>
+                <li><a href="gio_hang.php">GIỎ HÀNG</a></li>
             </ul>
         </div>
         <div class="banner">
@@ -127,11 +129,15 @@ if (isset($_POST['guibl'])) {
                 <div class="detail-pro-row-col1">
                     <h3><?php echo $sanpham["name"] ?></h3>
                     <span>Giá: <?php echo $sanpham["price"] ?> đ</span>
-                    <form action="" method="POST">
+                    <form action="gio_hang.php?action=add" method="POST">
+                        <input type="hidden" name="id" id="" value="<?php echo $sanpham['id'] ?>">
+                        <input type="hidden" name="image" id="" value="<?php echo $sanpham['image'] ?>">
+                        <input type="hidden" name="name" id="" value="<?php echo $sanpham['name'] ?>">
+                        <input type="hidden" name="price" id="" value="<?php echo $sanpham['price'] ?>">
                         <p class="quantity">Số lượng</p>
-                        <input type="number" min="1" name="quantity" id="quantity">
+                        <input type="text" value="1" name="quantity[<?php echo $sanpham['id'] ?>]" id="quantity">
                         <div class="but">
-                            <button type="submit" name="them" id="them">Thêm vào giỏ hàng</button>
+                            <button type="submit" name="addProduct" id="them">Thêm vào giỏ hàng</button>
                         </div>
                     </form>
                 </div>
@@ -146,9 +152,21 @@ if (isset($_POST['guibl'])) {
                     <input type="text" name="content" id="" placeholder="" autocomplete="off" style="width:88%;margin-right:20px;">
                     <button type="submit" name="guibl" style="background: #0093AB;border: 1px solid #0093AB;width: 10%;border-radius: 10px">Gửi</button>
                 </form>
+                <?php
+                $query = "SELECT products.name,users.name,comments.content,comments.created_at 
+                FROM comments inner join users on comments.id_user= users.id inner join products on comments.id_pro = products.id WHERE products.id= '" . $_GET['id'] . "'";
+                $stmt = $connection->prepare($query);
+                $stmt->execute();
+                $comments = $stmt->fetchAll();
+                // var_dump($comments);
+                // die;
+                ?>
                 <div class="table">
-                    <span style="color: black;">Tên người bình luận</span>
-                    <p>Nội dung bình luận</p>
+                    <?php foreach ($comments as $comment) : ?>
+                        <span style="color: black;"><?php echo $comment['name'] ?>:</span>
+                        <span style="color:black;font-size:10px;"><?php echo $comment['created_at'] ?></span>
+                        <p><?php echo $comment['content'] ?></p>
+                    <?php endforeach ?>
                 </div>
             </div>
             <section id="section">

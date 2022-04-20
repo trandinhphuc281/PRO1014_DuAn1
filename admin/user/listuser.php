@@ -29,7 +29,7 @@
                     <div class="navbar">
                         <ul id="menu">
                             <hr id="khoangcach">
-                            <li><a href="">TỚI TRANG WEB</a></li>
+                            <li><a href="../index.php">TỚI TRANG WEB</a></li>
                             <li><a href="../categories/cate.php">LOẠI HÀNG</a></li>
                             <li><a href="../products/pro.php">SẢN PHẨM</a></li>
                             <li><a href="../user/listuser.php">KHÁCH HÀNG</a></li>
@@ -71,9 +71,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($users as $user) : ?>
+                                <?php foreach ($users as $index => $user) : ?>
                                     <tr>
-                                        <th><?php echo $user["id"] ?></th>
+                                        <th><?php echo $index + 1 ?></th>
                                         <td><?php echo $user["name"] ?></td>
                                         <td><?php echo $user["email"] ?></td>
                                         <td><?php echo $user["phone"] ?></td>

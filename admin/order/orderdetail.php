@@ -29,7 +29,7 @@
                     <div class="navbar">
                         <ul id="menu">
                             <hr id="khoangcach">
-                            <li><a href="">TỚI TRANG WEB</a></li>
+                            <li><a href="../index.php">TỚI TRANG WEB</a></li>
                             <li><a href="../categories/cate.php">LOẠI HÀNG</a></li>
                             <li><a href="../products/pro.php">SẢN PHẨM</a></li>
                             <li><a href="../user/listuser.php">KHÁCH HÀNG</a></li>
@@ -49,35 +49,47 @@
                         <div class="text">
                             <h4>Chi tiết đơn hàng</h4>
                         </div>
+                        <?php
+                        $id = $_GET['id'];
+                        // var_dump($id);
+                        // die;
+                        $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
+                        $query = "SELECT products.image ,products.name ,products.price ,order_detail.quantity,
+                        order_detail.order_id FROM order_detail JOIN products ON order_detail.id_pro = products.id WHERE order_id =$id";
+                        $stmt = $connection->prepare($query);
+                        $stmt->execute();
+                        $orders = $stmt->fetchAll();
+                        // echo "<pre>";
+                        // var_dump($orders);
+                        // die;
+                        ?>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Mã đơn hàng</th>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Gía sản phẩm</th>
-                                    <th>Hình ảnh</th>
-                                    <th>Số lượng mua</th>
-                                    <th>Action</th>
+                                    <th style="text-align:center;">Mã đơn hàng</th>
+                                    <th style="text-align:center;">Tên sản phẩm</th>
+                                    <th style="text-align:center;">Giá sản phẩm</th>
+                                    <th style="text-align:center;">Hình ảnh</th>
+                                    <th style="text-align:center;">Số lượng mua</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th>1</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <a href="" style="text-decoration: none;">
-                                            <button type="button" class="btn btn-danger">Delete</button>
-                                        </a>
-                                    </td>
-                                </tr>
+                                <?php $index = 1;
+                                foreach ($orders as $hoadon) : ?>
+                                    <tr>
+                                        <th><?php echo $index++ ?></th>
+                                        <td style="text-align:center;"><?php echo $hoadon['order_id'] ?></td>
+                                        <td><?php echo $hoadon['name'] ?></td>
+                                        <td style="text-align:center;"><?php echo $hoadon['price'] ?></td>
+                                        <td style="text-align:center;width:100px;"><img src="../img/<?php echo $hoadon['image'] ?>" alt="" style="width:100%;height:100%;"></td>
+                                        <td style="text-align:center;"><?php echo $hoadon['quantity'] ?></td>
+                                    </tr>
+                                <?php $index++;
+                                endforeach ?>
                             </tbody>
                         </table>
-                        <div class="form1-btn">
+                        <div class="form1-btn" style="padding: 20px;">
                             <a href="./listorder.php" style="text-decoration: none;">
                                 <button type="button" class="btn btn-success">Danh sách đơn hàng</button>
                             </a>

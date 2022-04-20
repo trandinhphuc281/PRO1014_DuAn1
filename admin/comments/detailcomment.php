@@ -29,7 +29,7 @@
                     <div class="navbar">
                         <ul id="menu">
                             <hr id="khoangcach">
-                            <li><a href="">TỚI TRANG WEB</a></li>
+                            <li><a href="../index.php">TỚI TRANG WEB</a></li>
                             <li><a href="../categories/cate.php">LOẠI HÀNG</a></li>
                             <li><a href="../products/pro.php">SẢN PHẨM</a></li>
                             <li><a href="../user/listuser.php">KHÁCH HÀNG</a></li>
@@ -45,6 +45,18 @@
                     <div class="banner">
                         <img src="../img/banner.png" alt="">
                     </div>
+                    <?php
+                    $id = $_GET['id'];
+                    $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
+                    $query = "SELECT comments.id,comments.content,comments.created_at,users.name, products.name AS 'tensp'
+                    FROM comments JOIN users on users.id = comments.id_user JOIN products ON products.id = comments.id_pro and comments.id_pro =$id";
+                    $stmt = $connection->prepare($query);
+                    $stmt->execute();
+                    $comments = $stmt->fetchAll();
+                    // echo "<pre>";
+                    // var_dump($comments);
+                    // die;
+                    ?>
                     <div id="table">
                         <div class="text">
                             <h4>Chi tiết bình luận</h4>
@@ -53,28 +65,29 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Nội dung bình luận</th>
+                                    <th style="text-align: center;">Nội dung bình luận</th>
                                     <th>Người bình luận</th>
                                     <th>Ngày bình luận</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th>1</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <a href="" style="text-decoration: none;">
-                                            <button type="button" class="btn btn-danger">Delete</button>
-                                        </a>
-                                    </td>
-                                </tr>
+                                <?php foreach ($comments as $index => $comment) : ?>
+                                    <tr>
+                                        <th><?php echo $index + 1 ?></th>
+                                        <td style="width:550px;"><?php echo $comment['content'] ?></td>
+                                        <td><?php echo $comment['name'] ?></td>
+                                        <td><?php echo $comment['created_at'] ?></td>
+                                        <td style="width:110px;">
+                                            <a href="./deletecomment.php?id=<?php echo $comment['id'] ?>" style="text-decoration: none;">
+                                                <button type="button" class="btn btn-danger">Delete</button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach ?>
                             </tbody>
                         </table>
-                        <div class="form1-btn">
+                        <div class="form1-btn" style="padding-bottom: 30px;padding-left: 50px;">
                             <a href="./listcomment.php" style="text-decoration: none;">
                                 <button type="button" class="btn btn-success">Danh sách bình luận</button>
                             </a>

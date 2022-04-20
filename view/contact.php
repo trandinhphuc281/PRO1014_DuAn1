@@ -34,12 +34,12 @@ include './config.php' ?>
         </div>
         <div class="navbar">
             <ul class="main-menu">
-                <li><a href="index.php">DANH MỤC SẢN PHẨM</a></li>
-                <li><a href="">SẢN PHẨM BÁN CHẠY</a></li>
+                <li><a href="../index.php">DANH MỤC SẢN PHẨM</a></li>
+                <li><a href="./likepro.php">SẢN PHẨM BÁN CHẠY</a></li>
                 <li><a href="introduce.php">GIỚI THIỆU</a></li>
                 <li><a href="news.php">TIN TỨC</a></li>
                 <li><a href="contact.php">LIÊN HỆ</a></li>
-                <li><a href="">GIỎ HÀNG</a></li>
+                <li><a href="gio_hang.php">GIỎ HÀNG</a></li>
             </ul>
         </div>
         <div class="banner">
@@ -111,32 +111,15 @@ include './config.php' ?>
                         <p>Nếu bạn có thắc mắc gì, có thể gửi yêu cầu cho chúng tôi, và chúng
                             tôi sẽ liên lạc lại với bạn sớm nhất có thể</p>
                         <?php
-                        if (isset($_POST['submit'])) {
+                        if (isset($_POST['contact'])) {
                             $name = $_POST['name'];
                             $phone = $_POST['phone'];
                             $email = $_POST['email'];
                             $content = $_POST['content'];
-                            if (isset($_SESSION['khach_hang'])) {
-                                $id_pro = $_GET['id'];
-                                $id_user = mysqli_fetch_array($con->query("select * from users where email = '" . $_SESSION['khach_hang']['email'] . "'"));
-                                $id_user = $id_user['id'];
-                                if (strlen($content) > 400) {
-                                    echo "<script>alert('Nội dung bình luận không quá 400 từ!')</script>";
-                                } else {
-                                    $con->query("insert into contacts(name,email,phone,content)values('$name','$phone','$email','$content')");
-                                }
-                            } else if (isset($_SESSION['admin'])) {
-                                $id_pro = $_GET['id'];
-                                $id_user = mysqli_fetch_array($con->query("select * from users where email = '" . $_SESSION['admin']['email'] . "'"));
-                                $id_user = $id_user['id'];
-                                if (strlen($content) > 400) {
-                                    echo "<script>alert('Nội dung bình luận không quá 400 từ!')</script>";
-                                } else {
-                                    $con->query("insert into contacts(name,email,phone,content)values('$name','$phone','$email','$content')");
-                                }
-                            } else {
-                                echo "<script>alert('Vui lòng đăng nhập để bình luận')</script>";
-                            }
+                            $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
+                            $query = "INSERT INTO contacts (name,email,phone,content) VALUES ('$name','$email','$phone','$content')";
+                            $stmt = $connection->prepare($query);
+                            $stmt->execute();
                         }
                         ?>
                         <form action="" method="POST">
@@ -163,7 +146,7 @@ include './config.php' ?>
                                 <span id="errorContents"></span>
                             </div>
                             <div class="button">
-                                <button type="submit" id="submit" name="submit">GỬI THÔNG TIN</button>
+                                <button type="submit" id="submit" name="contact">GỬI THÔNG TIN</button>
                             </div>
                         </form>
                     </div>

@@ -30,7 +30,7 @@
                     <div class="navbar">
                         <ul id="menu">
                             <hr id="khoangcach">
-                            <li><a href="">TỚI TRANG WEB</a></li>
+                            <li><a href="../index.php">TỚI TRANG WEB</a></li>
                             <li><a href="../categories/cate.php">LOẠI HÀNG</a></li>
                             <li><a href="../products/pro.php">SẢN PHẨM</a></li>
                             <li><a href="../user/listuser.php">KHÁCH HÀNG</a></li>
@@ -47,25 +47,11 @@
                         <img src="../img/banner.png" alt="">
                     </div>
                     <?php
-                    $item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 4;
-                    $current_page = !empty($_GET['page']) ? $_GET['page'] : 1;
-                    $offset = ($current_page - 1) * $item_per_page;
                     $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
-                    $query = "SELECT * FROM news ORDER BY id DESC LIMIT " . $item_per_page . " OFFSET " . $offset . "";
+                    $query = "SELECT * FROM news ";
                     $stmt = $connection->prepare($query);
                     $stmt->execute();
                     $news = $stmt->fetchAll();
-                    // đếm số sản phẩm
-                    $total = mysqli_query($con, "SELECT * FROM news");
-                    // var_dump($total);
-                    // die;
-                    // tính tổng sản phẩm
-                    $total = $total->num_rows;
-                    // tính số trang
-                    $totalPage = ceil($total / $item_per_page);
-                    // echo "<pre>";
-                    // var_dump($products);
-                    // die;
                     ?>
                     <div id="table" style="padding: 0 30px 50px 30px;">
                         <div class="text">
@@ -83,9 +69,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($news as $new) : ?>
+                                <?php foreach ($news as $index => $new) : ?>
                                     <tr>
-                                        <td><?php echo $new['id'] ?></td>
+                                        <td><?php echo $index + 1 ?></td>
                                         <td style="width:195px;"><?php echo $new['title'] ?></td>
                                         <td style="width:400px;"><?php echo $new['discription'] ?></td>
                                         <td style="text-align:center;width:150px;"><img src="../img/<?php echo $new['image'] ?>" alt="" style="width:100%;height:100%;"></td>
@@ -102,7 +88,6 @@
                                 <?php endforeach ?>
                             </tbody>
                         </table>
-                        <?php include "../page.php" ?>
                         <div class="form1-btn">
                             <a href="./new.php" style="text-decoration: none;">
                                 <button type="button" class="btn btn-success">Thêm tin tức</button>

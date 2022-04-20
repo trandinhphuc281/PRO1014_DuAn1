@@ -29,7 +29,7 @@
                     <div class="navbar">
                         <ul id="menu">
                             <hr id="khoangcach">
-                            <li><a href="">TỚI TRANG WEB</a></li>
+                            <li><a href="../index.php">TỚI TRANG WEB</a></li>
                             <li><a href="../categories/cate.php">LOẠI HÀNG</a></li>
                             <li><a href="../products/pro.php">SẢN PHẨM</a></li>
                             <li><a href="../user/listuser.php">KHÁCH HÀNG</a></li>
@@ -48,11 +48,15 @@
                     <div class="form">
                         <?php
                         $id = $_GET['id'];
+                        // var_dump($id);
+                        // die;
                         $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
-                        $query = "SELECT * FROM products WHERE id=$id";
+                        $query = "SELECT * FROM products WHERE id= $id";
                         $stmt = $connection->prepare($query);
                         $stmt->execute();
                         $products = $stmt->fetch();
+                        // var_dump($products);
+                        // die;
                         ?>
 
                         <!-- Sửa thông tin sản phẩm-->

@@ -47,12 +47,12 @@ $tinmoi = $stmt->fetchAll();
         </div>
         <div class="navbar">
             <ul class="main-menu">
-                <li><a href="index.php">DANH MỤC SẢN PHẨM</a></li>
-                <li><a href="">SẢN PHẨM BÁN CHẠY</a></li>
+                <li><a href="../index.php">DANH MỤC SẢN PHẨM</a></li>
+                <li><a href="./likepro.php">SẢN PHẨM BÁN CHẠY</a></li>
                 <li><a href="introduce.php">GIỚI THIỆU</a></li>
                 <li><a href="news.php">TIN TỨC</a></li>
                 <li><a href="contact.php">LIÊN HỆ</a></li>
-                <li><a href="">GIỎ HÀNG</a></li>
+                <li><a href="gio_hang.php">GIỎ HÀNG</a></li>
             </ul>
         </div>
         <div class="banner">

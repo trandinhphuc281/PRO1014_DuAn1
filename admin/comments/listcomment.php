@@ -33,7 +33,7 @@ $sql = "";
                     <div class="navbar">
                         <ul id="menu">
                             <hr id="khoangcach">
-                            <li><a href="">TỚI TRANG WEB</a></li>
+                            <li><a href="../index.php">TỚI TRANG WEB</a></li>
                             <li><a href="../categories/cate.php">LOẠI HÀNG</a></li>
                             <li><a href="../products/pro.php">SẢN PHẨM</a></li>
                             <li><a href="../user/listuser.php">KHÁCH HÀNG</a></li>
@@ -49,6 +49,17 @@ $sql = "";
                     <div class="banner">
                         <img src="../img/banner.png" alt="">
                     </div>
+                    <?php
+                    $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
+                    $query = "SELECT comments.id, comments.id_pro, products.id, products.name, COUNT(*) as 'soluong', MAX(comments.created_at) AS 'moi', MIN(comments.created_at) as 'cu' 
+                    FROM comments JOIN products ON products.id = comments.id_pro GROUP BY products.id, products.name HAVING soluong>0";
+                    $stmt = $connection->prepare($query);
+                    $stmt->execute();
+                    $comments = $stmt->fetchAll();
+                    // echo "<pre>";
+                    // var_dump($comments);
+                    // die;
+                    ?>
                     <div id="table" style="padding: 0 30px 50px 30px;">
                         <div class="text">
                             <h4>Danh sách bình luận</h4>
@@ -57,26 +68,28 @@ $sql = "";
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Tên sản phẩm</th>
+                                    <th style="text-align: center;">Tên sản phẩm</th>
                                     <th>Số lượng bình luận</th>
                                     <th>Ngày mới nhất</th>
                                     <th>Ngày cũ nhất</th>
-                                    <th>Action</th>
+                                    <th style="text-align: center;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th>1</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <a href="./detailcomment.php" style="text-decoration: none;">
-                                            <button type="button" class="btn btn-info">Xem chi tiết</button>
-                                        </a>
-                                    </td>
-                                </tr>
+                                <?php foreach ($comments as $index => $comment) : ?>
+                                    <tr>
+                                        <td><?php echo $index + 1 ?></td>
+                                        <td style="width: 445px;"><?php echo $comment["name"] ?></td>
+                                        <td><?php echo $comment["soluong"] ?></td>
+                                        <td><?php echo $comment["moi"] ?></td>
+                                        <td><?php echo $comment["cu"] ?></td>
+                                        <td>
+                                            <a href="./detailcomment.php?id=<?php echo $comment['id'] ?>" style="text-decoration: none;">
+                                                <button type="button" class="btn btn-info">Xem chi tiết</button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach ?>
                             </tbody>
                         </table>
                     </div>

@@ -33,12 +33,12 @@
         </div>
         <div class="navbar">
             <ul class="main-menu">
-                <li><a href="./index.php">DANH MỤC SẢN PHẨM</a></li>
-                <li><a href="">SẢN PHẨM BÁN CHẠY</a></li>
+                <li><a href="../index.php">DANH MỤC SẢN PHẨM</a></li>
+                <li><a href="./likepro.php">SẢN PHẨM BÁN CHẠY</a></li>
                 <li><a href="./introduce.php">GIỚI THIỆU</a></li>
                 <li><a href="./news.php">TIN TỨC</a></li>
                 <li><a href="./contact.php">LIÊN HỆ</a></li>
-                <li><a href="">GIỎ HÀNG</a></li>
+                <li><a href="./gio_hang.php">GIỎ HÀNG</a></li>
             </ul>
         </div>
         <div class="form_login">
@@ -58,13 +58,13 @@
                 if (!empty($add)) {
                     if ($add['role'] != 0) {
                         $_SESSION['khach_hang'] = $add;
-                        header("location:./index.php");
+                        header("location:../index.php");
                     } else {
                         $_SESSION['admin'] = $add;
                         header("location:../admin/index.php");
                     }
                 } else {
-                    echo "Email hoặc mật khẩu chưa đúng, vui lòng nhập lại!";
+                    echo "<p style='color:red;'>Email hoặc mật khẩu chưa đúng, vui lòng nhập lại!</p>";
                 }
             }
             ?>

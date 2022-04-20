@@ -27,22 +27,6 @@
                             <p>FREESHIP MỌI ĐƠN HÀNG TỪ 80K, ÁP DỤNG CHO TẤT CẢ TỪ HÀ NỘI, HCM, VÀ CÁC TỈNH THÀNH.</p>
                         </div>
                     </div>
-                    <?php
-                    if (isset($_POST["search"])) {
-                        $tukhoa = $_POST["searchpro"];
-                        if ($tukhoa != "") {
-                            $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
-                            $query = "SELECT * FROM products WHERE name LIKE '%$tukhoa%'";
-                            $stmt = $connection->prepare($query);
-                            $stmt->execute();
-                            $products = $stmt->fetchAll();
-                            // var_dump($products);
-                            // die;
-                        } else {
-                            echo '<script>alert("Vui lòng nhập vào thanh tìm kiếm")</script>';
-                        }
-                    }
-                    ?>
                     <?php include("./header_search.php"); ?>
                 </div>
             </div>
@@ -50,7 +34,7 @@
         <div class="navbar">
             <ul class="main-menu">
                 <li><a href="../index.php">DANH MỤC SẢN PHẨM</a></li>
-                <li><a href="./likepro.php">SẢN PHẨM BÁN CHẠY</a></li>
+                <li><a href="likepro.php">SẢN PHẨM BÁN CHẠY</a></li>
                 <li><a href="introduce.php">GIỚI THIỆU</a></li>
                 <li><a href="news.php">TIN TỨC</a></li>
                 <li><a href="contact.php">LIÊN HỆ</a></li>
@@ -62,16 +46,26 @@
         </div>
         <div class="main">
             <div class="main_text">
-                <h3>Kết quả tìm kiếm "<?php echo $tukhoa ?>"</h3>
+                <h3>TOP SẢN PHẨM BÁN CHẠY</h3>
             </div>
+            <?php
+            $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
+            $query = "SELECT products.name as 'tensp',products.image as 'anhsp',products.id,order_detail.price as'giasp' 
+            FROM order_detail JOIN products ON order_detail.id_pro = products.id";
+            $stmt = $connection->prepare($query);
+            $stmt->execute();
+            $spbc = $stmt->fetchAll();
+            // var_dump($spbc);
+            // die;
+            ?>
             <div id="main_row">
-                <?php foreach ($products as $product) : ?>
+                <?php foreach ($spbc as $sp) : ?>
                     <div class="main_row_col">
-                        <a href="./detail-pro.php?id=<?php echo $product["id"] ?>">
-                            <img src="../admin/img/<?php echo $product["image"] ?>" alt="">
+                        <a href="./detail-pro.php?id=<?php echo $sp['id'] ?>">
+                            <img src="../admin/img/<?php echo $sp['anhsp'] ?>" alt="">
                         </a>
-                        <span><?php echo $product["price"] ?>đ</span>
-                        <h4><?php echo $product["name"] ?></h4>
+                        <span><?php echo $sp['giasp'] ?>đ</span>
+                        <h4><?php echo $sp['tensp'] ?></h4>
                     </div>
                 <?php endforeach ?>
             </div>

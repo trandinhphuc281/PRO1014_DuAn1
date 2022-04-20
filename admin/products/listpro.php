@@ -32,7 +32,7 @@ include '../config.php';
                     <div class="navbar">
                         <ul id="menu">
                             <hr id="khoangcach">
-                            <li><a href="">TỚI TRANG WEB</a></li>
+                            <li><a href="../index.php">TỚI TRANG WEB</a></li>
                             <li><a href="../categories/cate.php">LOẠI HÀNG</a></li>
                             <li><a href="../products/pro.php">SẢN PHẨM</a></li>
                             <li><a href="../user/listuser.php">KHÁCH HÀNG</a></li>
@@ -49,26 +49,12 @@ include '../config.php';
                         <img src="../img/banner.png" alt="">
                     </div>
                     <?php
-                    $item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 5;
-                    $current_page = !empty($_GET['page']) ? $_GET['page'] : 1;
-                    $offset = ($current_page - 1) * $item_per_page;
                     $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
-                    $query = "SELECT * FROM products ORDER BY id ASC LIMIT " . $item_per_page . " OFFSET " . $offset . "";
+                    $query = "SELECT categories.id, categories.name AS 'tenloai',products.id,products.name,products.price,products.import_price,products.image,products.created_at,
+                    products.view FROM products INNER JOIN categories on products.id_cate = categories.id ";
                     $stmt = $connection->prepare($query);
                     $stmt->execute();
                     $products = $stmt->fetchAll();
-                    // đếm số sản phẩm
-                    $total = mysqli_query($con, "SELECT * FROM products");
-                    // var_dump($total);
-                    // die;
-                    // tính tổng sản phẩm
-                    $total = $total->num_rows;
-
-                    // tính số trang
-                    $totalPage = ceil($total / $item_per_page);
-                    // echo "<pre>";
-                    // var_dump($products);
-                    // die;
                     ?>
                     <div id="table" style="padding: 0 30px 50px 30px;width:100">
                         <div class="text">
@@ -77,6 +63,8 @@ include '../config.php';
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th>#</th>
+                                    <th style="text-align: center;">Tên loại hàng</th>
                                     <th style="text-align: center;">Tên sản phẩm</th>
                                     <th style="text-align: center;">Gía nhập</th>
                                     <th style="text-align: center;">Gía bán</th>
@@ -87,8 +75,10 @@ include '../config.php';
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($products as $product) : ?>
+                                <?php foreach ($products as $index => $product) : ?>
                                     <tr>
+                                        <td><?php echo $index + 1 ?></td>
+                                        <td><?php echo $product["tenloai"] ?></td>
                                         <td><?php echo $product["name"] ?></td>
                                         <td><?php echo $product["import_price"] ?></td>
                                         <td><?php echo $product["price"] ?></td>
@@ -96,7 +86,7 @@ include '../config.php';
                                         <td><?php echo $product["created_at"] ?></td>
                                         <td><?php echo $product["view"] ?></td>
                                         <td style="width:150px;">
-                                            <a href="./update-pro.php?id=<?php echo $product['id'] ?>" style="text-decoration: none;">
+                                            <a href="./update-pro.php?id=<?php echo $product["id"] ?>" style="text-decoration: none;">
                                                 <button type="button" class="btn btn-primary">Edit</button>
                                             </a>
                                             <a onclick="return Del('<?php echo $product['id'] ?>')" href="./delete-pro.php?id=<?php echo $product['id'] ?>" style="text-decoration: none;">
@@ -107,7 +97,6 @@ include '../config.php';
                                 <?php endforeach ?>
                             </tbody>
                         </table>
-                        <?php include '../page.php' ?>
                         <div class="form1-btn">
                             <a href="./pro.php" style="text-decoration: none;">
                                 <button type="button" class="btn btn-success">Thêm sản phẩm</button>

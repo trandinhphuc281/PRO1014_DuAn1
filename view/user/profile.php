@@ -27,18 +27,83 @@
                             <p>FREESHIP MỌI ĐƠN HÀNG TỪ 80K, ÁP DỤNG CHO TẤT CẢ TỪ HÀ NỘI, HCM, VÀ CÁC TỈNH THÀNH.</p>
                         </div>
                     </div>
-                    <?php include("../header_search.php"); ?>
+                    <div class="header_search_bot">
+                        <div class="header_search_bot">
+                            <form action="./search.php" method="POST">
+                                <input type="text" name="searchpro" placeholder="  Tìm kiếm sản phẩm" require>
+                                <button type="submit" name="search">Tìm kiếm</button>
+                            </form>
+
+                            <?php
+                            if (isset($_SESSION['admin'])) { ?>
+                                <nav id="navbar1">
+                                    <ul id="main-menu">
+                                        <li>
+                                            <a href="#"><?= $_SESSION['admin']['name'] ?></a>
+                                            <ul class="sub-menu">
+                                                <li>
+                                                    <a href="./profile.php?id=<?php echo $_SESSION['admin']['id'] ?>">Thông tin</a>
+                                                </li>
+                                                <li>
+                                                    <?php
+                                                    if (isset($_SESSION['admin'])) { ?>
+                                                        <a href="../admin/index.php">Quản trị</a>
+                                                    <?php } ?>
+                                                </li>
+                                                <li>
+                                                    <a href="./logout.php?id=<?php echo $_SESSION['admin']['id'] ?>" onclick="return alert('Bạn chắc chắn muốn đăng xuất chứ ?')">Đăng xuất</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+                                </nav>
+                            <?php
+                            } elseif (isset($_SESSION['khach_hang'])) { ?>
+                                <nav id="navbar1">
+                                    <ul id="main-menu">
+                                        <li>
+                                            <a href="#"><?= $_SESSION['khach_hang']['name'] ?></a>
+                                            <ul class="sub-menu">
+                                                <li>
+                                                    <a href="./profile.php?id=<?php echo $_SESSION['khach_hang']['id'] ?>">Thông tin</a>
+                                                </li>
+                                                <li>
+                                                    <a href="./logout.php?id=<?php echo $_SESSION['khach_hang']['id'] ?>" onclick="return alert('Bạn chắc chắn muốn đăng xuất chứ ?')">Đăng xuất</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+                                </nav>
+                            <?php
+                            } else { ?>
+                                <nav id="navbar1">
+                                    <ul id="main-menu">
+                                        <li>
+                                            <a href="../log_in.php">Đăng nhập</a>
+                                            <ul class="sub-menu">
+                                                <li><a href=".register.php">Đăng Kí</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            <?php
+                            }
+                            ?>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="navbar">
             <ul class="main-menu">
                 <li><a href="../index.php">DANH MỤC SẢN PHẨM</a></li>
-                <li><a href="">SẢN PHẨM BÁN CHẠY</a></li>
+                <li><a href="../likepro.php">SẢN PHẨM BÁN CHẠY</a></li>
                 <li><a href="../introduce.php">GIỚI THIỆU</a></li>
                 <li><a href="../news.php">TIN TỨC</a></li>
                 <li><a href="../contact.php">LIÊN HỆ</a></li>
-                <li><a href="">GIỎ HÀNG</a></li>
+                <li><a href="../gio_hang.php">GIỎ HÀNG</a></li>
             </ul>
         </div>
         <div class="form_login">
@@ -60,13 +125,12 @@
             // Cập nhật lại tài khoản
             if (isset($_POST["login"])) {
                 $name = $_POST["name"];
-                $email = $_POST["email"];
                 $phone = $_POST["phone"];
                 $password = $_POST["password"];
                 $passwords = $_POST["passwords"];
                 $address = $_POST["address"];
-                if ($name != "" && $email != "" && $phone != "" && $password != "" && $passwords != "" && $address != "") {
-                    $query = "UPDATE users SET name ='$name', email='$email', password='$passwords', phone='$phone', address='$address' WHERE id='$id'";
+                if ($name != "" && $phone != "" && $password != "" && $passwords != "" && $address != "") {
+                    $query = "UPDATE users SET name ='$name', password='$passwords', phone='$phone', address='$address' WHERE id='$id'";
                     $stmt = $connection->prepare($query);
                     $stmt->execute();
                     echo "<script>alert('Cập nhật thành công')</script>";
@@ -81,7 +145,7 @@
                     <input type="text" onblur="checkName()" id="username" name="name" placeholder="  VD:Trần Văn A" value="<?php echo $taikhoan["name"] ?>" autocomplete="off">
                     <span id="errorName"></span>
                     <p>Email:</p>
-                    <input type="email" onblur="checkEmail()" id="email" name="email" placeholder="  VD:abc@gmail.com" value="<?php echo $taikhoan["email"] ?>" autocomplete="off">
+                    <input type="email" onblur="checkEmail()" id="email" name="email" placeholder="  VD:abc@gmail.com" value="<?php echo $taikhoan["email"] ?>" autocomplete="off" disabled>
                     <span id="errorEmail"></span>
                     <p>Số điện thoại:</p>
                     <input type="text" onblur="checkPhone()" id="phone" name="phone" placeholder=" VD:0123456789" value="<?php echo $taikhoan["phone"] ?>" autocomplete="off">

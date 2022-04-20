@@ -29,7 +29,7 @@
                     <div class="navbar">
                         <ul id="menu">
                             <hr id="khoangcach">
-                            <li><a href="">TỚI TRANG WEB</a></li>
+                            <li><a href="../index.php">TỚI TRANG WEB</a></li>
                             <li><a href="../categories/cate.php">LOẠI HÀNG</a></li>
                             <li><a href="../products/pro.php">SẢN PHẨM</a></li>
                             <li><a href="../user/listuser.php">KHÁCH HÀNG</a></li>
@@ -49,11 +49,19 @@
                         <div class="text">
                             <h4>Danh sách đơn hàng</h4>
                         </div>
+                        <?php
+                        $connection = new PDO("mysql:host=127.0.0.1;dbname=baileyshop;charset=utf8", "root", "");
+                        $query = "SELECT * FROM bill";
+                        $stmt = $connection->prepare($query);
+                        $stmt->execute();
+                        $bills = $stmt->fetchAll();
+                        // var_dump($bills);
+                        // die;
+                        ?>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Tên người đặt</th>
                                     <th>Tên người nhận</th>
                                     <th>Số điện thoại người nhận</th>
                                     <th>Địa chỉ</th>
@@ -64,21 +72,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th>1</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <a href="./orderdetail.php" style="text-decoration: none;">
-                                            <button type="button" class="btn btn-info">Xem chi tiết</button>
-                                        </a>
-                                    </td>
-                                </tr>
+                                <?php foreach ($bills as $index => $bill) : ?>
+                                    <tr>
+                                        <th><?php echo $index + 1 ?></th>
+                                        <td><?php echo $bill['name'] ?></td>
+                                        <td><?php echo $bill['phone'] ?></td>
+                                        <td><?php echo $bill['address'] ?></td>
+                                        <td><?php echo $bill['total'] ?></td>
+                                        <td><?php echo $bill['created_at'] ?></td>
+                                        <td><?php echo $bill['thanh_toan'] == 0 ? 'Thanh toán sau khi nhận hàng' : 'Chuyển khoản' ?></td>
+                                        <td>
+                                            <a href="./orderdetail.php?id=<?php echo $bill['id'] ?>" style="text-decoration: none;">
+                                                <button type="button" class="btn btn-info">Xem chi tiết</button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach ?>
                             </tbody>
                         </table>
                     </div>

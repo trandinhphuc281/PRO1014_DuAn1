@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../view/css/style.css">
+</head>
+
+<body>
+    <div class="banner">
+        <div class="banner_row">
+            <div class="banner_row_col">
+                <img src="./img/0.png" id="image" alt="">
+            </div>
+            <div class="banner_row_col">
+                <div class="banner_row_col1_row">
+                    <a href="">
+                        <img src="../view/img/banner-right-1.png" alt="">
+                    </a>
+                </div>
+                <div class="banner_row_col1_row">
+                    <a href="">
+                        <img src="../view/img/banner-right-2.png" alt="">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var images = [];
+        for (var i = 0; i < 2; i++) {
+            images[i] = new Image();
+            images[i].src = "./img/" + i + ".png";
+        }
+        var index = 0;
+
+        function start() {
+            index++;
+            if (index >= images.length) {
+                index = 0;
+            }
+            var anh = document.getElementById("image");
+            anh.src = images[index].src;
+        }
+        var inTime = setInterval(start, 2000);
+    </script>
+</body>
+
+</html>

@@ -23,7 +23,7 @@
                             } ?>
                         </li>
                         <li>
-                            <a href="./user/logout.php" onclick="return alert('Bạn chắc chắn muốn đăng xuất chứ ?')">Đăng xuất</a>
+                            <a href="./user/logout.php?id=<?php echo $_SESSION['admin']['id'] ?>" onclick="return alert('Bạn chắc chắn muốn đăng xuất chứ ?')">Đăng xuất</a>
                         </li>
                     </ul>
                 </li>
@@ -41,7 +41,7 @@
                             <a href="./user/profile.php?id=<?php echo $_SESSION['khach_hang']['id'] ?>">Thông tin</a>
                         </li>
                         <li>
-                            <a href="./user/logout.php" onclick="return alert('Bạn chắc chắn muốn đăng xuất chứ ?')">Đăng xuất</a>
+                            <a href="./user/logout.php?id=<?php echo $_SESSION['khach_hang']['id'] ?>" onclick="return alert('Bạn chắc chắn muốn đăng xuất chứ ?')">Đăng xuất</a>
                         </li>
                     </ul>
                 </li>
